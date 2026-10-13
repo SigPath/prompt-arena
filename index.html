@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#12100E">
+  <title>Prompt Arena — pojedynek promptów na dowolnych modelach</title>
+  <meta name="description" content="A/B test promptów na dwóch modelach OpenAI-compatible (Ollama lokalnie, OpenRouter, własny endpoint). Latencja, tokeny, eksport do Markdown. Klucze zostają w Twojej przeglądarce.">
+  <link rel="canonical" href="https://sigpath.github.io/prompt-arena/">
+  <meta property="og:title" content="Prompt Arena — pojedynek promptów">
+  <meta property="og:description" content="A/B testy promptów z metrykami. BYOK — klucze zostają w przeglądarce.">
+  <script type="module" src="/src/main.ts"></script>
+</head>
+<body>
+  <header class="top">
+    <div>
+      <p class="brand">PROMPT·ARENA</p>
+      <p class="tagline">Dwa modele, jeden prompt, zero sentimentów. Klucze (BYOK) zostają w Twojej przeglądarce.</p>
+    </div>
+    <a class="gh" href="https://github.com/SigPath/prompt-arena" target="_blank" rel="noopener">GitHub ↗</a>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="h-prompt">
+      <h2 id="h-prompt">1 · Prompt (wspólny dla zawodników)</h2>
+      <label class="sr" for="system">System</label>
+      <input id="system" type="text" value="Jesteś zwięzłym asystentem. Odpowiadaj po polsku." spellcheck="false">
+      <label class="sr" for="user">Zapytanie użytkownika</label>
+      <textarea id="user" rows="4" spellcheck="false">Wyjaśnij w 3 zdaniach, czym jest próg zwrócenia inwestycji przy lokalnych modelach LLM.</textarea>
+    </section>
+
+    <section class="panel" aria-labelledby="h-fighters">
+      <h2 id="h-fighters">2 · Zawodnicy (endpointy OpenAI-compatible)</h2>
+      <div class="fighters">
+        <fieldset class="fighter" id="f-a">
+          <legend>A</legend>
+          <label>Nazwa <input data-f="name" value="Ollama lokalnie"></label>
+          <label>Endpoint <input data-f="endpoint" value="http://localhost:11434/v1" spellcheck="false"></label>
+          <label>Model <input data-f="model" value="llama3.2" spellcheck="false"></label>
+          <label>API key (opcjonalny) <input data-f="key" type="password" placeholder="BYOK — zostaje w przeglądarce"></label>
+        </fieldset>
+        <div class="vs" aria-hidden="true">VS</div>
+        <fieldset class="fighter" id="f-b">
+          <legend>B</legend>
+          <label>Nazwa <input data-f="name" value="OpenRouter"></label>
+          <label>Endpoint <input data-f="endpoint" value="https://openrouter.ai/api/v1" spellcheck="false"></label>
+          <label>Model <input data-f="model" value="openai/gpt-4o-mini" spellcheck="false"></label>
+          <label>API key (opcjonalny) <input data-f="key" type="password" placeholder="BYOK — zostaje w przeglądarce"></label>
+        </fieldset>
+      </div>
+      <p class="hint">Ollama działa bez klucza (uruchom: <code>OLLAMA_ORIGINS=* ollama serve</code>). OpenAI bezpośrednio z przeglądarki blokuje CORS — użyj OpenRouter albo własnego proxy.</p>
+    </section>
+
+    <section class="panel">
+      <button id="run" class="fight" type="button">⚔︎ WALCZCIE</button>
+      <p id="status" class="status" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" aria-labelledby="h-res">
+      <h2 id="h-res">3 · Wynik rundy</h2>
+      <div class="results">
+        <article class="res" id="res-a"><h3>A</h3><p class="metrics mono">—</p><pre class="out">—</pre></article>
+        <article class="res" id="res-b"><h3>B</h3><p class="metrics mono">—</p><pre class="out">—</pre></article>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="h-hist">
+      <h2 id="h-hist">4 · Historia <button id="export" class="mini" type="button" disabled>Eksportuj MD</button></h2>
+      <ol id="history" class="history mono"></ol>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>Prompt Arena · Marcin Burda · <a href="https://burda.eu.org">burda.eu.org</a> · zapytania lecą wprost z Twojej przeglądarki do wybranych endpointów; autor strony niczego nie pośredniczy i nie loguje.</p>
+  </footer>
+</body>
+</html>
